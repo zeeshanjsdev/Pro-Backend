@@ -33,8 +33,8 @@ const userSchema = new Schema(
       type: String, ///cloudinary URL
     },
     watchHistroy: {
-      type: Schema.type.ObjectId,
-      ref: "video",
+      type: Schema.Types.ObjectId,
+      ref: 'Video'
     },
     passWord: {
       type: String,
