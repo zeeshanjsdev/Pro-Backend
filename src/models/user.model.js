@@ -68,9 +68,10 @@ userSchema.methods.generateAccessToken = function () {
       username: this.username,
       fullName: this.fullName,
     },
-    process.env.ACCESS_TOKKEN_SECRET,
+    process.env.ACCESS_TOKEN_SECRET,
+    console.log('Access Token Secret:', process.env.ACCESS_TOKEN_SECRET),
     {
-      expiresIn: process.env.ACCESS_TOKKEN_EXPIRY,
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     }
   );
 };
@@ -79,11 +80,14 @@ userSchema.methods.generateRefreshToken = function () {
     {
       _id: this._id,
     },
-    process.env.REFRESH_TOKKEN_SECRET,
+    process.env.REFRESH_TOKEN_SECRET,
+    console.log('Refresh Token Secret:', process.env.REFRESH_TOKEN_SECRET),
     {
-      expiresIn: process.env.REFRESH_TOKKEN_EXPIRY,
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
     }
   );
 };
+
+
 
 export const User = mongoose.model("User", userSchema);
