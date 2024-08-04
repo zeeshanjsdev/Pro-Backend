@@ -1,10 +1,10 @@
 import multer from 'multer';
 
 const storage = multer.diskStorage({
-  destination: function (req, files, cb) {
+  destination: function (req, file, cb) {
     cb(null, "./public/temp");
   },
-  filename: function (req, files, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname);
   },
 });
