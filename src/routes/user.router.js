@@ -40,10 +40,10 @@ router.route("/changePassword").post(verifyJWT, changeCurrentPassword);
 router.route("/current-User").get(verifyJWT, getCurrentUser);
 router.route("/update-account").patch(verifyJWT, updateAccountDetails);
 router
-  .route("/avatar")
+  .route("/updateAvatar")
   .patch(verifyJWT, upload.single("avatar", updateUserAvatar));
 router
-  .route("/cover-Image")
+  .route("/updateCoverImage")
   .patch(verifyJWT, upload.single("coverImage", updateUserCoverImage));
 router.route("/c/:username").get(verifyJWT, getUserChannel);
 router.route("/watch-History").get(verifyJWT, getWatchHistroy);

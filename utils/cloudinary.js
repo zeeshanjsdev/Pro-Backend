@@ -7,7 +7,8 @@ dotenv.config();
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET, // Click 'View Credentials' below to copy your API secret
+  api_secret: process.env.CLOUDINARY_API_SECRET, 
+  // Click 'View Credentials' below to copy your API secret
 });
 console.log({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -34,7 +35,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     return response;
   } catch (error) {
 
-    console.log("error uploading file", error.message || error)
+    console.log("Error Uploading File", error.message || error)
 
     if(fs.existsSync(localFilePath)){
       fs.unlinkSync(localFilePath);

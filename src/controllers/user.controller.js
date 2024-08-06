@@ -7,6 +7,7 @@ import { ApiResponse } from "../../utils/apiResponse.js";
 import { response } from "express";
 import { SchemaTypeOptions } from "mongoose";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 const registerUser = asyncHandler(async (req, res) => {
   //     Registering User Logic
@@ -365,19 +366,20 @@ const getUserChannel = asyncHandler(async (req, res) => {
     throw new ApiError(400, "username is missing");
   }
 
-  const channel = User.aggregate([
+  const channel = await User.aggregate([
     {
       $match: {
-        username: username?.toLowerCase,
-      },
+        username: username?.toLowerCase(),
+      }
     },
     {
-      $lookup: {
+      $lookup: 
+      {
         from: "subscriptions",
         localField: "_id",
         foreignField: "channel",
         as: "subscribers",
-      },
+      }
     },
     {
       $lookup: {
@@ -385,7 +387,7 @@ const getUserChannel = asyncHandler(async (req, res) => {
         localField: "_id",
         foreignField: "subscriber",
         as: "subscribedTo",
-      },
+      }
     },
     {
       $addFields: {
@@ -400,9 +402,9 @@ const getUserChannel = asyncHandler(async (req, res) => {
             if: { $in: [req.user?._id, "$subscribers.subscriber"] },
             then: true,
             else: false,
-          },
-        },
-      },
+          }
+        }
+      }
     },
     {
       $project: {
@@ -418,7 +420,7 @@ const getUserChannel = asyncHandler(async (req, res) => {
     },
   ]);
 
-  if (!channel?.length) {
+  if ( channel.length === 0 ) {
     throw new ApiError(400, "Channel doesnt exist");
   }
   console.log(channel);
@@ -434,8 +436,8 @@ const getWatchHistroy = asyncHandler(async (req, res) => {
   const user = await User.aggregate([
     {
       $match: {
-        _id: new mongoose.Types.ObjectId(req.user._id),
-      },
+        _id: new mongoose.Types.ObjectId(req.user._id)
+      }
     },
     {
       $lookup: {
@@ -457,7 +459,7 @@ const getWatchHistroy = asyncHandler(async (req, res) => {
                     username: 1,
                     avatar: 1,
                   }
-                },{}
+                }
               ]
             },
           },
