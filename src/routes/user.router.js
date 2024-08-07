@@ -11,10 +11,15 @@ import {
   updateUserCoverImage,
   getUserChannel,
   getWatchHistroy,
+  getVideoComments,
+  addComment,
+  updateComment,
+  deleteComment
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middlware.js";
 import multer from "multer";
+import { getVideoComments } from "../controllers/comment.controller.js";
 const router = Router();
 
 router.route("/register").post(
@@ -47,5 +52,13 @@ router
   .patch(verifyJWT, upload.single("coverImage", updateUserCoverImage));
 router.route("/c/:username").get(verifyJWT, getUserChannel);
 router.route("/watch-History").get(verifyJWT, getWatchHistroy);
+
+//Comments
+router.route("/comments/:videoId?page=1&limit=10").get(getVideoComments);
+router.route("/comments/:videoId").get(addComment);
+router.route("/comments/:commentId").delete(deleteComment);
+router.route("/comments/:commentId").get(updateComment);
+
+
 
 export default router;
